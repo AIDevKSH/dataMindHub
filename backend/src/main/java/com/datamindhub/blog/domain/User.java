@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "Users")
-public class User extends BaseDateTimeEntity implements UserDetails  {
+public class User extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
@@ -46,49 +46,4 @@ public class User extends BaseDateTimeEntity implements UserDetails  {
 
     @Column(name = "status", nullable = false)
     private int status;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
-    }
-
-    // 사용자 아이디
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    // 사용자 비밀번호
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    // 계정 만료 여부
-    @Override
-    public boolean isAccountNonExpired() {
-
-        return true;
-    }
-
-    // 계정 잠금 여부
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return true;
-    }
-
-    // 비밀번호 만료 여부
-    @Override
-    public boolean isCredentialsNonExpired() {
-
-        return true;
-    }
-
-    // 계정 사용 가능한지 여부
-    @Override
-    public boolean isEnabled() {
-
-        return true;
-    }
 }

@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
@@ -21,8 +20,8 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
-public class WebSecurityConfig {
-    private final UserDetailsService userService;
+public class WebSecurityFilterConfig {
+    //private final UserDetailsService userService;
 
     // H2 콘솔과 정적 리소스에 대한 시큐리티 기능 비활성화
     @Bean
@@ -53,9 +52,9 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("email")
                         .failureUrl("/login")
-                        .successHandler((HttpServletRequest request, HttpServletResponse response, Authentication authentication) -> {
-                            response.sendRedirect("/");
-                        })
+                        .successHandler((HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+                                -> response.sendRedirect("/")
+                        )
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
@@ -65,14 +64,12 @@ public class WebSecurityConfig {
                 .build();
     }
 
+
     //인증 관리자 관련 설정
 //    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder
+//    public void authenticationManager(AuthenticationManagerBuilder auth, BCryptPasswordEncoder bCryptPasswordEncoder
 //            , UserDetailsService userDetailsService) throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .userDetailsService(userService)
-//                .passwordEncoder(bCryptPasswordEncoder)
-//                .and()
-//                .build();
+//        auth.userDetailsService(userDetailsService)
+//                .passwordEncoder(bCryptPasswordEncoder);
 //    }
 }

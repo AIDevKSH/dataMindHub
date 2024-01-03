@@ -21,7 +21,7 @@ public class UserViewController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {  // 사용자가 이미 로그인한 경우
-            return "redirect:/post/post-list";
+            return "redirect:/";
         }
         return "login";
     }

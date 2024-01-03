@@ -1,5 +1,6 @@
 package com.datamindhub.blog.service;
 
+import com.datamindhub.blog.domain.SecurityUser;
 import com.datamindhub.blog.domain.User;
 import com.datamindhub.blog.dto.UserRequestDto;
 import com.datamindhub.blog.repository.UserRepository;
@@ -38,9 +39,11 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException(email);
+        SecurityUser securityUser = new SecurityUser(user);
+
+        if (securityUser == null) {
+            throw new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
         }
-        return user;
+        return securityUser;
     }
 }
