@@ -1,5 +1,6 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.config;
 
+import com.datamindhub.blog.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class SecurityUser implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     private final User user;
 
     @Override

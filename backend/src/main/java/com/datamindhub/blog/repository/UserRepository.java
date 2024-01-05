@@ -1,6 +1,6 @@
 package com.datamindhub.blog.repository;
 
-import com.datamindhub.blog.domain.User;
+import com.datamindhub.blog.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

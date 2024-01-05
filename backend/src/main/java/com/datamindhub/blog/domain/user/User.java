@@ -1,5 +1,6 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.domain.user;
 
+import com.datamindhub.blog.domain.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
