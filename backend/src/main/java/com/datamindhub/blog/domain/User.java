@@ -1,4 +1,4 @@
-package com.datamindhub.blog.domain.user;
+package com.datamindhub.blog.domain;
 
 import com.datamindhub.blog.domain.BaseDateTimeEntity;
 import jakarta.persistence.*;
@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,8 +17,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Setter
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +35,7 @@ public class User extends BaseDateTimeEntity {
     @Column(name = "user_name", length = 30, nullable = false)
     private String userName;
 
-    @Column(name = "birthday", length = 9, nullable = true)  // 양력(0), 음력(1) + xxxx.xx.xx
+    @Column(name = "birthday", length = 9)  // 양력(0), 음력(1) + xxxx.xx.xx
     private String birthday;
 
     @Column(name = "nickname", length = 20, nullable = false)
@@ -47,4 +49,7 @@ public class User extends BaseDateTimeEntity {
 
     @Column(name = "status", nullable = false)
     private int status;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserAuthority> userAuthorities = new ArrayList<>();
 }

@@ -1,6 +1,6 @@
 package com.datamindhub.blog.dto;
 
-import com.datamindhub.blog.domain.user.User;
+import com.datamindhub.blog.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

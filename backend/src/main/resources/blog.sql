@@ -25,23 +25,25 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS AUTHORITIES (
-                                           id TINYINT PRIMARY KEY AUTO_INCREMENT,
-                                           authority VARCHAR(50) NOT NULL # 권한명
+    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL # 권한명
 );
 
 CREATE TABLE IF NOT EXISTS USER_AUTHORITIES (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT NOT NULL,  # 회원 id (로그인 id 아님)
     authority_id TINYINT NOT NULL, # 권한 id
+    updated_at TIMESTAMP,  # 수정한 시간
+    created_at TIMESTAMP,  # 생성한 시간
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (authority_id) REFERENCES AUTHORITIES(id)
 );
 
 # 기본 권한 설정
-INSERT INTO AUTHORITIES(authority)
+INSERT INTO AUTHORITIES(name)
 SELECT 'read'
-WHERE NOT EXISTS (SELECT 1 FROM AUTHORITIES WHERE authority = 'read');
+WHERE NOT EXISTS (SELECT 1 FROM AUTHORITIES WHERE name = 'read');
 
-INSERT INTO AUTHORITIES(authority)
+INSERT INTO AUTHORITIES(name)
 SELECT 'write'
-WHERE NOT EXISTS (SELECT 1 FROM AUTHORITIES WHERE authority = 'write');
+WHERE NOT EXISTS (SELECT 1 FROM AUTHORITIES WHERE name = 'write');

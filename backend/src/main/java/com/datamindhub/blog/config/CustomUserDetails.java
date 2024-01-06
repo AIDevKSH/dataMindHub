@@ -1,6 +1,6 @@
 package com.datamindhub.blog.config;
 
-import com.datamindhub.blog.domain.user.User;
+import com.datamindhub.blog.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +15,10 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("user"));
+        return user.getUserAuthorities().stream()
+                .map(userAuth -> new SimpleGrantedAuthority(userAuth.getAuthority().getName()))
+                .toList();
+        //return List.of(new SimpleGrantedAuthority("user"));
     }
 
     // 사용자 아이디
