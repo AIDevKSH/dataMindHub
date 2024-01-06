@@ -38,6 +38,7 @@ public class UserRequestDto {
     @Size(max = 15)
     private String phone;
 
+    private Integer status;
     public User toEntity() {
         return User.builder()
                 .email(email)
@@ -46,6 +47,7 @@ public class UserRequestDto {
                 .birthday(birthday)
                 .nickname(nickname)
                 .phone(phone)
+                .status(status)
                 .build();
     }
 }

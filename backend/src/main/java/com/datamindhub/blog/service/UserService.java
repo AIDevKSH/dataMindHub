@@ -20,6 +20,7 @@ public class UserService {
         if (userRepository.findByEmail(userDto.getEmail()) != null) {
             throw new DataIntegrityViolationException("중복 아이디 발견");
         }
+        userDto.setStatus(1);
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         return userRepository.save(userDto.toEntity()).getId();
     }

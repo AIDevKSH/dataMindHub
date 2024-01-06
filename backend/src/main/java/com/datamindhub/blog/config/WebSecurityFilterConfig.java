@@ -24,22 +24,22 @@ public class WebSecurityFilterConfig {
     //private final UserDetailsService userService;
 
     // H2 콘솔과 정적 리소스에 대한 시큐리티 기능 비활성화
-    @Bean
-    @Order(1)
-    public SecurityFilterChain configureH2AndStaticFilterChain(HttpSecurity http) throws Exception {
-        return http.securityMatcher(toH2Console())
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(toH2Console(), PathRequest.toStaticResources().atCommonLocations())
-                        .permitAll()
-                )
-                .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .csrf(c->c.ignoringRequestMatchers(toH2Console()))
-                .build();
-    }
+//    @Bean
+//    @Order(1)
+//    public SecurityFilterChain configureH2AndStaticFilterChain(HttpSecurity http) throws Exception {
+//        return http.securityMatcher(toH2Console())
+//                .authorizeHttpRequests(auth -> auth
+//                    .requestMatchers(toH2Console(), PathRequest.toStaticResources().atCommonLocations())
+//                        .permitAll()
+//                )
+//                .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+//                .csrf(c->c.ignoringRequestMatchers(toH2Console()))
+//                .build();
+//    }
 
     // 특정 Http 요청에 대한 보안 설정
+    //@Order(2)
     @Bean
-    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth

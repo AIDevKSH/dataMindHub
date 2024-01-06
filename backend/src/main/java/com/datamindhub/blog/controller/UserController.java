@@ -19,13 +19,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public String addUser(@Valid @ModelAttribute("user") UserRequestDto user, BindingResult bindingResult) {
+    public String addUser(@Valid @ModelAttribute("user") UserRequestDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.debug("유저 등록 error");
             return "/signup";
         }
         try {
-            userService.save(user);
+            userService.save(userDto);
         }
         catch (DataIntegrityViolationException e) {
             log.error("중복 이메일 발견으로 유저 가입 실패");
