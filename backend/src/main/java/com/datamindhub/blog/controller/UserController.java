@@ -30,7 +30,6 @@ public class UserController {
         catch (DataIntegrityViolationException e) {
             log.error("중복 이메일 발견으로 유저 가입 실패");
         }
-
         return "redirect:/login";
     }
 

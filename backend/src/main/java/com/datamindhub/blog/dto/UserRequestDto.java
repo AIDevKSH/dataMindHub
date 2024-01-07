@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.HashSet;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -48,6 +50,7 @@ public class UserRequestDto {
                 .nickname(nickname)
                 .phone(phone)
                 .status(status)
+                .userRoles(new HashSet<>())
                 .build();
     }
 }

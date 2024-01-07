@@ -8,18 +8,18 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "user_authorities")
-public class UserAuthority extends BaseDateTimeEntity {
+@Table(name = "user_roles")
+public class UserRole extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "authority_id")
-    private Authority authority;
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

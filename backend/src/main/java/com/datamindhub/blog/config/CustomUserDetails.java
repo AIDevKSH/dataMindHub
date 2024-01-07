@@ -1,13 +1,19 @@
 package com.datamindhub.blog.config;
 
+import com.datamindhub.blog.domain.Role;
 import com.datamindhub.blog.domain.User;
+import com.datamindhub.blog.domain.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -15,8 +21,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getUserAuthorities().stream()
-                .map(userAuth -> new SimpleGrantedAuthority(userAuth.getAuthority().getName()))
+        Role role = user.getUserRoles().stream()
+                .map(UserRole::getRole)
+                .findFirst().orElseThrow(() -> new UsernameNotFoundException("No Roles"));
+
+        return role.getAuthorities().stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
                 .toList();
         //return List.of(new SimpleGrantedAuthority("user"));
     }

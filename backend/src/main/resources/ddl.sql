@@ -12,10 +12,10 @@ USE blog;
 # Table 생성
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL,  # 이메일은 @ . 포함 최대 254자 - RFC 5321
+    email VARCHAR(254) NOT NULL,  # 이메일은 @ . 포함 최대 254자 - RFC 5321
     password VARCHAR(255) NOT NULL,  # 비밀번호
     user_name VARCHAR(30), # 이름
-    nickname VARCHAR(20), # 별명
+    nickname VARCHAR(50), # 별명
     birthday VARCHAR(8), # 생년월일
     phone VARCHAR(15),  # 전화번호 / E164
     profile_image TEXT,  # 프로필 이미지
@@ -24,26 +24,30 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP  # 가입한 시간
 );
 
-CREATE TABLE IF NOT EXISTS AUTHORITIES (
-    id TINYINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL # 권한명
+CREATE TABLE IF NOT EXISTS roles (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL # 역할명
 );
 
-CREATE TABLE IF NOT EXISTS USER_AUTHORITIES (
+CREATE TABLE IF NOT EXISTS user_roles (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT NOT NULL,  # 회원 id (로그인 id 아님)
-    authority_id TINYINT NOT NULL, # 권한 id
+    role_id INTEGER NOT NULL, # 역할 id
     updated_at TIMESTAMP,  # 수정한 시간
     created_at TIMESTAMP,  # 생성한 시간
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (authority_id) REFERENCES AUTHORITIES(id)
+    FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
-# 기본 권한 설정
-INSERT INTO AUTHORITIES(name)
-SELECT 'read'
-WHERE NOT EXISTS (SELECT 1 FROM AUTHORITIES WHERE name = 'read');
+CREATE TABLE IF NOT EXISTS authorities (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL # 권한명
+);
 
-INSERT INTO AUTHORITIES(name)
-SELECT 'write'
-WHERE NOT EXISTS (SELECT 1 FROM AUTHORITIES WHERE name = 'write');
+CREATE TABLE IF NOT EXISTS role_authorities (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    role_id INTEGER NOT NULL,  # 역할 id
+    authority_id INTEGER NOT NULL, # 권한 id
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    FOREIGN KEY (authority_id) REFERENCES authorities(id)
+);
