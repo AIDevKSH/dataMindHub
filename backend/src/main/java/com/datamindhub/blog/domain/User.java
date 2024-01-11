@@ -26,16 +26,16 @@ public class User extends BaseDateTimeEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "user_name", length = 30, nullable = false)
+    @Column(name = "user_name", length = 30)
     private String userName;
 
     @Column(name = "birthday", length = 8)  // AAAABBCC
     private String birthday;
 
-    @Column(name = "nickname", length = 50, nullable = false)
+    @Column(name = "nickname", length = 50)
     private String nickname;
 
-    @Column(name = "phone", length = 15, nullable = false)
+    @Column(name = "phone", length = 15)
     private String phone;
 
     @Column(name = "profile_image")
