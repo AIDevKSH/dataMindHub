@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @Slf4j
-@EnableWebSecurity
 @RequiredArgsConstructor
 public class UserViewController {
-
     @GetMapping("/login")
     public String login(Authentication auth) {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
         if (auth instanceof UsernamePasswordAuthenticationToken) {  // 사용자가 이미 로그인한 경우

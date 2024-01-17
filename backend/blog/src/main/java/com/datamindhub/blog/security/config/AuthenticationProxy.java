@@ -1,4 +1,4 @@
-package com.datamindhub.blog.config;
+package com.datamindhub.blog.security.config;
 
 import com.datamindhub.blog.dto.UserLoginAuthDto;
 import lombok.RequiredArgsConstructor;

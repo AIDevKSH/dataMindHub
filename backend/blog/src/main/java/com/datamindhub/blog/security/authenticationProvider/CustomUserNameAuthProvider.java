@@ -1,6 +1,8 @@
-package com.datamindhub.blog.config;
+package com.datamindhub.blog.security.authenticationProvider;
 
 import com.datamindhub.blog.dto.UserLoginAuthDto;
+import com.datamindhub.blog.security.config.AuthenticationProxy;
+import com.datamindhub.blog.security.userDetailsService.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;

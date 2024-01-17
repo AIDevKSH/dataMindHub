@@ -1,4 +1,4 @@
-package com.datamindhub.blog.config;
+package com.datamindhub.blog.security.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;

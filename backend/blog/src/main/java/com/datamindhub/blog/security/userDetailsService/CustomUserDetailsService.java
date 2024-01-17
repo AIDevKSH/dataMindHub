@@ -1,7 +1,8 @@
-package com.datamindhub.blog.config;
+package com.datamindhub.blog.security.userDetailsService;
 
 import com.datamindhub.blog.domain.User;
 import com.datamindhub.blog.repository.UserRepository;
+import com.datamindhub.blog.security.userDetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

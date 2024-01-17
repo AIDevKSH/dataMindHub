@@ -1,7 +1,6 @@
 package com.datamindhub.blog.controller;
 
 import com.datamindhub.blog.dto.UserRequestDto;
-import com.datamindhub.blog.repository.UserRepository;
 import com.datamindhub.blog.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +35,6 @@ public class UserController {
     @ResponseBody
     @GetMapping("/id-check")
     public int checkUserId(@RequestParam String email) {
-        return userService.checkIsDuplicatedUserEmail(email) ? 0 : 1;  // 참이면 중복(0), 거짓이면 중복 아님(1)
+        return userService.checkIsDuplicatedUserEmail(email) ? 1 : 0;  // 참이면 중복(1), 거짓이면 중복 아님(0)
     }
 }

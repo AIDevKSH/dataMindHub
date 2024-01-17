@@ -1,8 +1,7 @@
-package com.datamindhub.blog.config;
+package com.datamindhub.blog.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
