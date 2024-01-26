@@ -1,7 +1,7 @@
 package com.datamindhub.auth.service;
 
 import com.datamindhub.auth.domain.User;
-import com.datamindhub.auth.dto.UserLoginAuthDto;
+import com.datamindhub.auth.dto.UserRequestDto;
 import com.datamindhub.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,11 +15,11 @@ import java.util.Optional;
 public class LoginAuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    public void auth(UserLoginAuthDto userLoginAuthDto) {
-        Optional<User> user = userRepository.findByEmail(userLoginAuthDto.getEmail());
+    public void auth(UserRequestDto userRequestDto) {
+        Optional<User> user = userRepository.findByEmail(userRequestDto.getEmail());
 
         if (user.isPresent()) {  // 유저가 있을 때
-            if (passwordEncoder.matches(userLoginAuthDto.getPassword(), user.get().getPassword())) {
+            if (passwordEncoder.matches(userRequestDto.getPassword(), user.get().getPassword())) {
                 return;
             }
         }

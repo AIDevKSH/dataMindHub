@@ -1,4 +1,4 @@
-package com.datamindhub.blog.security.userDetailsService;
+package com.datamindhub.auth.config.userDetailsService;
 
 import com.datamindhub.blog.domain.User;
 import com.datamindhub.blog.repository.UserRepository;
