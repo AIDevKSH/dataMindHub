@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,7 +37,7 @@ public class WebSecurityConfig {
                         .anyRequest()
                         .authenticated()
                 )  // 어느 경로를 인증받지 않고 사용할 수 있는지 설정
-                .httpBasic(h -> h.disable())  // httpBasic 비활성화
+                .httpBasic(AbstractHttpConfigurer::disable)  // httpBasic 비활성화
                 .addFilterAt(customJwtFilter, BasicAuthenticationFilter.class)
 //                .formLogin(login -> login
 //                        .loginPage("/login")

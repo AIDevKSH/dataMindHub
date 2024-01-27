@@ -1,8 +1,8 @@
 package com.datamindhub.auth.config.userDetails;
 
-import com.datamindhub.blog.domain.Role;
-import com.datamindhub.blog.domain.User;
-import com.datamindhub.blog.domain.UserRole;
+import com.datamindhub.auth.domain.Role;
+import com.datamindhub.auth.domain.User;
+import com.datamindhub.auth.domain.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

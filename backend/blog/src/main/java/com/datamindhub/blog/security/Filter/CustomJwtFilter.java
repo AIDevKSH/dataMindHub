@@ -39,4 +39,9 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getServletPath().equals("/login");
+    }
 }

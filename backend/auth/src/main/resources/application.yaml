@@ -11,3 +11,6 @@ spring:
     hibernate:
       ddl-auto: none
     open-in-view: false  # JpaBaseConfiguration$JpaWebConfiguration WARN ??
+jwt:
+  issuer: test
+  secret-key: test1234test1234test1234test1234test1234test1234
