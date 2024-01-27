@@ -13,12 +13,21 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class TokenService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider tokenProvider;
 
-    public void auth(UserRequestDto userRequestDto) {
+    public String generateToken(UserRequestDto userRequestDto) {
+        findUser(userRequestDto);  // 사용자 인증
+        return tokenProvider.generateDefaultToken(userRequestDto);
+    }
+
+    public String isValidToken(String token) {
+        return tokenProvider.validToken(token);
+    }
+
+    public void findUser(UserRequestDto userRequestDto) {
         Optional<User> user = userRepository.findByEmail(userRequestDto.getEmail());
 
         if (user.isPresent()) {  // 유저가 있을 때
@@ -28,10 +37,5 @@ public class LoginService {
         }
         // 유저가 없거나 비밀번호가 틀렸을 때
         throw new BadCredentialsException("유저 인증 실패");
-    }
-
-    public String makeToken(UserRequestDto userRequestDto) {
-        auth(userRequestDto);  // 사용자 인증
-        return tokenProvider.makeDefaultToken(userRequestDto);
     }
 }

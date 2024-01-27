@@ -24,12 +24,12 @@ public class Authority {
     @ManyToMany(mappedBy = "authorities")
     private Set<Role> roles;
 
-    public enum AuthorityEnum {
-        CREATE, READ, UPDATE, DELETE;
-
-        @Override
-        public String toString() {
-            return name().toLowerCase();
-        }
-    }
+//    public enum AuthorityEnum {
+//        CREATE, READ, UPDATE, DELETE;
+//
+//        @Override
+//        public String toString() {
+//            return name().toLowerCase();
+//        }
+//    }
 }

@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -26,7 +28,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .csrf(c -> c.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(c -> c
                         .configurationSource(CustomCorsConfig)
                 )  // CORS 허용 커스텀 설정
@@ -38,7 +40,10 @@ public class WebSecurityConfig {
                         .authenticated()
                 )  // 어느 경로를 인증받지 않고 사용할 수 있는지 설정
                 .httpBasic(AbstractHttpConfigurer::disable)  // httpBasic 비활성화
-                .addFilterAt(customJwtFilter, BasicAuthenticationFilter.class)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class)
 //                .formLogin(login -> login
 //                        .loginPage("/login")
 //                        .usernameParameter("email")

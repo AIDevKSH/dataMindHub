@@ -1,7 +1,7 @@
 # com.datamindhub.blog와 하위 패키지 로그 레벨 설정
 logging:
   level:
-    com.datamindhub.sns: debug
+    com.datamindhub.blog: debug
     # org.springframework.security: debug
 
     # ocalVariableTableParameterNameDiscoverer WARN 해결

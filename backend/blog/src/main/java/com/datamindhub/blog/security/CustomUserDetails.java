@@ -1,15 +1,18 @@
-package com.datamindhub.auth.config.userDetails;
+package com.datamindhub.blog.security;
 
-import com.datamindhub.auth.domain.Role;
-import com.datamindhub.auth.domain.User;
-import com.datamindhub.auth.domain.UserRole;
+import com.datamindhub.blog.domain.Role;
+import com.datamindhub.blog.domain.User;
+import com.datamindhub.blog.domain.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -21,10 +24,11 @@ public class CustomUserDetails implements UserDetails {
                 .map(UserRole::getRole)
                 .findFirst().orElseThrow(() -> new UsernameNotFoundException("No Roles"));
 
-        return role.getAuthorities().stream()
-                .map(r -> new SimpleGrantedAuthority(r.getName()))
-                .toList();
-        //return List.of(new SimpleGrantedAuthority("user"));
+        ArrayList<SimpleGrantedAuthority> authorities = role.getAuthorities().stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName().toUpperCase()))
+                .collect(Collectors.toCollection(ArrayList::new));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
+        return authorities;
     }
 
     // 사용자 아이디

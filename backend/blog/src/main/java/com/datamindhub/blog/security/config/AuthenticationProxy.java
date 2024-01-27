@@ -15,11 +15,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationProxy {
     private final RestTemplate restTemplate;
-    public void checkTokenIsValid(String token) {
+    public String checkTokenIsValid(String token) {
         String url = "http://localhost:8085" + "/token/check";
         HttpEntity<String> request = new HttpEntity<>(token);
 
-        restTemplate.postForEntity(url, request, Void.class);
+        HttpEntity<String> email = restTemplate.postForEntity(url, request, String.class);
+        return email.getBody();  // 해당 유저 이메일 반환
     }
 
     public Optional<String> requestLogin(LoginRequestDto loginDto) {

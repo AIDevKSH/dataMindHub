@@ -1,3 +1,6 @@
+logging:
+  level:
+    com.datamindhub.auth: debug
 server:
   port: 8085
 spring:
