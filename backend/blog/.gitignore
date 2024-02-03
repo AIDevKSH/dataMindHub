@@ -40,3 +40,5 @@ out/
 /.gradle/
 /gradle/
 /.idea/
+
+/src/main/resources/secrets.yaml

@@ -1,4 +1,4 @@
-package com.datamindhub.blog.security;
+package com.datamindhub.blog.domain;
 
 import com.datamindhub.blog.domain.Role;
 import com.datamindhub.blog.domain.User;

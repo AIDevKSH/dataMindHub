@@ -1,6 +1,6 @@
 package com.datamindhub.blog.security.Filter;
 
-import com.datamindhub.blog.security.CustomUserDetailsService;
+import com.datamindhub.blog.service.CustomUserDetailsService;
 import com.datamindhub.blog.security.config.AuthenticationProxy;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

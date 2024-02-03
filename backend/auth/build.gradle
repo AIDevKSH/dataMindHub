@@ -26,6 +26,7 @@ dependencies {
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 	compileOnly 'org.projectlombok:lombok'
@@ -35,6 +36,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+	// OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	// XML 매핑
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
