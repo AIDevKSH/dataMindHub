@@ -9,6 +9,7 @@ import lombok.*;
 import java.util.HashSet;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDto {

@@ -20,35 +20,48 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class WebSecurityConfig {
     //private final CustomJwtFilter customJwtFilter;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomCorsConfig CustomCorsConfig;
+    private final CustomCorsConfig customCorsConfig;
 
     // 특정 Http 요청에 대한 보안 설정
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         return http
+                // CSRF 테스트를 위한 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
+
+                // CORS 허용 커스텀 설정
                 .cors(c -> c
-                        .configurationSource(CustomCorsConfig)
-                )  // CORS 허용 커스텀 설정
-                //.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(antMatcher("/login"), antMatcher("/signup")
-                                , antMatcher("/users"), antMatcher("/users/id-check"))
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-                )  // 어느 경로를 인증받지 않고 사용할 수 있는지 설정
-                .httpBasic(AbstractHttpConfigurer::disable)  // httpBasic 비활성화
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .configurationSource(customCorsConfig)
                 )
+
+                //.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+                // httpBasic 비활성화
+                .httpBasic(AbstractHttpConfigurer::disable)
+
+                // 세션 비활성화
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
+
                 // OAuth2 클라이언트 설정
                 .oauth2Login(authConfig -> authConfig
                         .userInfoEndpoint(endpointConfig -> endpointConfig
                                 .userService(customOAuth2UserService)
                         )
+                        .defaultSuccessUrl("/", true)
+                        //.loginPage("/login")
                 )
+
+                // 어느 경로를 인증받지 않고 사용할 수 있는지 설정
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(antMatcher("/login/**"), antMatcher("/oauth2/**"), antMatcher("/signup")
+                                , antMatcher("/users"), antMatcher("/users/id-check"))
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
+                )
+
                 .build();
     }
 

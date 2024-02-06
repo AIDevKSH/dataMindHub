@@ -10,9 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,11 +28,21 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+//    @ResponseBody
+//    @GetMapping("/test")
+//    public String test() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        log.info("{}", auth.getClass());
+//        return "good";
+//    }
+
     @GetMapping("/login")
-    public String loginView(Authentication auth) {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
-        if (auth instanceof UsernamePasswordAuthenticationToken) {  // 사용자가 이미 로그인한 경우
-            return "redirect:/";
-        }
+    public String loginView(OAuth2AuthenticationToken token) {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
+        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //log.info("{}", auth.getClass());
+//        if (token != null) {  // 사용자가 이미 로그인한 경우
+//            return "redirect:/";
+//        }
         return "login";
     }
 

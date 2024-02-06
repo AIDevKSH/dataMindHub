@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
         ArrayList<SimpleGrantedAuthority> authorities = role.getAuthorities().stream()
                 .map(r -> new SimpleGrantedAuthority(r.getName().toUpperCase()))
                 .collect(Collectors.toCollection(ArrayList::new));
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
         return authorities;
     }
 

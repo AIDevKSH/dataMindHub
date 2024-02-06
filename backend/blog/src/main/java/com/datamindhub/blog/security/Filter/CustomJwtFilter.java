@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Slf4j
-@Component
+//@Component
 @RequiredArgsConstructor
 public class CustomJwtFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService userDetailsService;
@@ -31,7 +31,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String requestHeader = request.getHeader(HEADER);  // 헤더에 있는 Authorization 값을 가져옴
-
+        log.info("jwt");
         if (requestHeader != null && requestHeader.startsWith(PREFIX)) {  // 헤더 정보가 있고, 시작이 PREFIX 일 때
             String token = requestHeader.substring(PREFIX.length());  // 토큰 정보만 가져옴
 

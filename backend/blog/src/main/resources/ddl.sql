@@ -51,3 +51,11 @@ CREATE TABLE IF NOT EXISTS role_authorities (
     FOREIGN KEY (role_id) REFERENCES roles(id),
     FOREIGN KEY (authority_id) REFERENCES authorities(id)
 );
+
+ALTER DATABASE blog
+    CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE users
+    CONVERT TO CHARACTER SET utf8mb4
+        COLLATE utf8mb4_unicode_ci;
