@@ -4,10 +4,7 @@ import com.datamindhub.blog.domain.Role;
 import com.datamindhub.blog.domain.Roles;
 import com.datamindhub.blog.domain.User;
 import com.datamindhub.blog.domain.UserRole;
-import com.datamindhub.blog.dto.CustomOAuth2User;
-import com.datamindhub.blog.dto.NaverResponse;
-import com.datamindhub.blog.dto.OAuth2Response;
-import com.datamindhub.blog.dto.UserRequestDto;
+import com.datamindhub.blog.dto.*;
 import com.datamindhub.blog.repository.RoleRepository;
 import com.datamindhub.blog.repository.UserRepository;
 import com.datamindhub.blog.repository.UserRoleRepository;
@@ -36,8 +33,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
-        log.info("{}", oAuth2User.getAttributes());
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2Response response = null;
 
@@ -45,10 +40,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             case "naver":
                 response = new NaverResponse(oAuth2User.getAttributes());
                 break;
+            case "google":
+                response = new GoogleResponse(oAuth2User.getAttributes());
+                break;
         }
 
         // 보안 문제 때문에 나중에 다른 값으로 변경해야 함!!
-        String oAuth2UserId = response.getProvider() + "_" + response.getProviderId();
+        String oAuth2UserId = response.getProviderId() + "@" + response.getProvider().charAt(0);
         Role foundRole = roleRepository.findByName(Roles.USER.getValue()).orElseThrow();
         Optional<User> foundUser = userRepository.findByEmail(oAuth2UserId);
         User user;
