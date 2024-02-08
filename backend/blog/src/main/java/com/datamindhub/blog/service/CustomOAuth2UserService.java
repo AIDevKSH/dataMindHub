@@ -40,9 +40,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             case "naver":
                 response = new NaverResponse(oAuth2User.getAttributes());
                 break;
+            case "kakao" :
+                response = new KakaoResponse(oAuth2User.getAttributes()); // 카카오는 권한이 없어서 이름 대신 닉네임으로 설정
+                break;
             case "google":
                 response = new GoogleResponse(oAuth2User.getAttributes());
-                break;
         }
 
         // 보안 문제 때문에 나중에 다른 값으로 변경해야 함!!
