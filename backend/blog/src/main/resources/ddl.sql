@@ -53,6 +53,18 @@ CREATE TABLE IF NOT EXISTS role_authorities (
     FOREIGN KEY (authority_id) REFERENCES authorities(id)
 );
 
+CREATE TABLE IF NOT EXISTS posts (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    body TEXT NOT NULL,
+    status TINYINT,
+    views INTEGER,
+    updated_at TIMESTAMP,
+    created_at TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 ALTER DATABASE blog
     CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_unicode_ci;

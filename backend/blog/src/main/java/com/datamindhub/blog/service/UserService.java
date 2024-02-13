@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
+import java.util.Optional;
 
 
 @Service
@@ -54,6 +55,9 @@ public class UserService {
         return authenticationProxy.requestLogin(loginDto)
                 .orElseThrow(() -> new BadCredentialsException("로그인 정보 오류"));
     }
+
+    public Optional<User> findByEmail(String email) { return userRepository.findByEmail(email); }
+    public Optional<User> findByProviderId(String providerId) { return userRepository.findByProviderId(providerId); }
 
     public boolean checkIsDuplicatedUserEmail(String Email) {
         return userRepository.findByEmail(Email).isPresent();
