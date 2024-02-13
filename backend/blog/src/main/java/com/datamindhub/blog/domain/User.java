@@ -44,6 +44,9 @@ public class User extends BaseDateTimeEntity {
     @Column(name = "status", nullable = false)
     private int status;
 
+    @Column(name = "provider_id")
+    private String providerId;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<UserRole> userRoles;
 }

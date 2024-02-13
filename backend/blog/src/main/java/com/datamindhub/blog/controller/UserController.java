@@ -1,18 +1,11 @@
 package com.datamindhub.blog.controller;
 
-import com.datamindhub.blog.dto.LoginRequestDto;
 import com.datamindhub.blog.dto.UserRequestDto;
 import com.datamindhub.blog.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -38,31 +31,35 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginView(OAuth2AuthenticationToken token) {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
-        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (auth instanceof OAuth2AuthenticationToken) {
+//            return "redirect:/";
+//        }
         //log.info("{}", auth.getClass());
 //        if (token != null) {  // 사용자가 이미 로그인한 경우
 //            return "redirect:/";
 //        }
-        return "login";
+        return "/login";
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@ModelAttribute LoginRequestDto loginDto) {
-        String token = null;
-
-        if (!loginDto.getEmail().isEmpty() && !loginDto.getPassword().isEmpty()) {  // 이메일, 비밀번호 둘 다 있을 때
-            try {
-                token = userService.requestLogin(loginDto);
-
-                return ResponseEntity.ok()
-                        .header("Authorization", "Bearer " + token)
-                        .body("");
-            } catch (BadCredentialsException e) {
-                log.error("로그인 오류", e);
-            }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 오류");
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@ModelAttribute LoginRequestDto loginDto) {
+//        String token = null;
+//
+//        if (!loginDto.getEmail().isEmpty() && !loginDto.getPassword().isEmpty()) {  // 이메일, 비밀번호 둘 다 있을 때
+//            try {
+//                token = userService.requestLogin(loginDto);
+//
+//                return ResponseEntity.ok()
+//                        .header("Authorization", "Bearer " + token)
+//                        .body("");
+//            } catch (BadCredentialsException e) {
+//                log.error("로그인 오류", e);
+//            }
+//        }
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 오류");
+//    }
 
     @GetMapping("/signup")
     public String signup(Model model) {

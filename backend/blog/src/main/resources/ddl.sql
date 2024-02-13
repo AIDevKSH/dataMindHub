@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(15),  # 전화번호 / E164
     profile_image TEXT,  # 프로필 이미지
     status TINYINT NOT NULL,  # 계정 상태
+    provider_id VARCHAR(255),  # OAuth2 인증 서버 별 고유 ID
     updated_at TIMESTAMP,  # 수정한 시간
     created_at TIMESTAMP  # 가입한 시간
 );

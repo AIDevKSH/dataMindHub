@@ -10,6 +10,7 @@ import com.datamindhub.blog.repository.UserRepository;
 import com.datamindhub.blog.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -17,16 +18,15 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final RoleRepository roleRepository;
-    private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -47,18 +47,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 response = new GoogleResponse(oAuth2User.getAttributes());
         }
 
-        // 보안 문제 때문에 나중에 다른 값으로 변경해야 함!!
-        String oAuth2UserId = response.getProviderId() + "@" + response.getProvider().charAt(0);
         Role foundRole = roleRepository.findByName(Roles.USER.getValue()).orElseThrow();
-        Optional<User> foundUser = userRepository.findByEmail(oAuth2UserId);
+        Optional<User> foundUser = userRepository.findByProviderId(response.getProviderId());
         User user;
 
         // 신규 회원일 때
         if (foundUser.isEmpty()) {
+            String oAuth2UserId = UUID.randomUUID().toString() + "@" + response.getProvider().charAt(0);
+
             user = User.builder()
                     .email(oAuth2UserId)
                     .userName(response.getName())
                     .status(1)
+                    .providerId(response.getProviderId())
                     .build();
 
             // 유저역할 정보 저장
