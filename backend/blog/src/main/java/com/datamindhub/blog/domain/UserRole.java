@@ -13,14 +13,16 @@ import lombok.*;
 public class UserRole extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
+    //@Id
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    //@Id
+    @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
 }

@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseDateTimeEntity {
+public abstract class BaseDateTimeEntity {
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
     protected LocalDateTime createdAt;
 
     @UpdateTimestamp

@@ -16,16 +16,16 @@ public class Post extends BaseDateTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "body", nullable = false)
+    @Column(name = "body")
     private String body;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private int status;
 
     @Column(name = "views")

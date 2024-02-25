@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS user_roles (
     created_at TIMESTAMP,  # 생성한 시간
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (role_id) REFERENCES roles(id)
+    # PRIMARY KEY (user_id, role_id)
 );
 
 CREATE TABLE IF NOT EXISTS authorities (

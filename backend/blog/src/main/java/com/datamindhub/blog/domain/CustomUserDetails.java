@@ -20,9 +20,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Role role = user.getUserRoles().stream()
-                .map(UserRole::getRole)
-                .findFirst().orElseThrow(() -> new UsernameNotFoundException("No Roles"));
+        Role role = user.getUserRoles().getRole();
+
+        if (role == null) throw new UsernameNotFoundException("No Roles");
 
         ArrayList<SimpleGrantedAuthority> authorities = role.getAuthorities().stream()
                 .map(r -> new SimpleGrantedAuthority(r.getName().toUpperCase()))

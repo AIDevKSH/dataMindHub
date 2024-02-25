@@ -1,7 +1,6 @@
 package com.datamindhub.blog.controller;
 
-import com.datamindhub.blog.domain.User;
-import com.datamindhub.blog.dto.CustomOAuth2User;
+import com.datamindhub.blog.domain.CustomOAuth2User;
 import com.datamindhub.blog.dto.post.PostDto;
 import com.datamindhub.blog.service.UserService;
 import com.datamindhub.blog.service.post.PostService;

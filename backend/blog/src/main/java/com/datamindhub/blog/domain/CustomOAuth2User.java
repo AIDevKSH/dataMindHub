@@ -1,6 +1,7 @@
-package com.datamindhub.blog.dto;
+package com.datamindhub.blog.domain;
 
 import com.datamindhub.blog.domain.Role;
+import com.datamindhub.blog.dto.OAuth2Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

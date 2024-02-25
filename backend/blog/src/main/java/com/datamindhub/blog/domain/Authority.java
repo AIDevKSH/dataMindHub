@@ -15,10 +15,10 @@ import java.util.Set;
 public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "authorities")

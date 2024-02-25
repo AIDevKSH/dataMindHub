@@ -1,16 +1,11 @@
 package com.datamindhub.blog.service;
 
-import com.datamindhub.blog.domain.Role;
-import com.datamindhub.blog.domain.Roles;
-import com.datamindhub.blog.domain.User;
-import com.datamindhub.blog.domain.UserRole;
+import com.datamindhub.blog.domain.*;
 import com.datamindhub.blog.dto.*;
 import com.datamindhub.blog.repository.RoleRepository;
 import com.datamindhub.blog.repository.UserRepository;
-import com.datamindhub.blog.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -19,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -47,7 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 response = new GoogleResponse(oAuth2User.getAttributes());
         }
 
-        Role foundRole = roleRepository.findByName(Roles.USER.getValue()).orElseThrow();
+        Role foundRole = roleRepository.findByName(RoleEnum.ROLE_USER.toString()).orElseThrow();
         Optional<User> foundUser = userRepository.findByProviderId(response.getProviderId());
         User user;
 
@@ -63,10 +57,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
 
             // 유저역할 정보 저장
-            user.setUserRoles(Set.of(UserRole.builder()
-                                                .user(user)
-                                                .role(foundRole)
-                                                .build())
+            user.setUserRoles(UserRole.builder()
+                    .user(user)
+                    .role(foundRole)
+                    .build()
             );
             userRepository.save(user);  // 유저 정보 저장
         } 
@@ -76,6 +70,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setUserName(response.getName());
         }
 
-        return new CustomOAuth2User(response, user.getUserRoles().stream().findFirst().orElseThrow().getRole());
+        return new CustomOAuth2User(response, user.getUserRoles().getRole());
     }
 }

@@ -17,36 +17,36 @@ import java.util.*;
 public class User extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private long id;
 
-    @Column(name = "email", length = 254, nullable = false)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "user_name", length = 30)
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "birthday", length = 8)  // AAAABBCC
+    @Column(name = "birthday")  // AAAABBCC
     private String birthday;
 
-    @Column(name = "nickname", length = 50)
+    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "phone", length = 15)
+    @Column(name = "phone")
     private String phone;
 
     @Column(name = "profile_image")
     private String profileImage;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private int status;
 
     @Column(name = "provider_id")
     private String providerId;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<UserRole> userRoles;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private UserRole userRoles;
 }

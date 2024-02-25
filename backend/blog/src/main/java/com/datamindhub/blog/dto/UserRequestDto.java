@@ -51,7 +51,7 @@ public class UserRequestDto {
                 .nickname(nickname)
                 .phone(phone)
                 .status(status)
-                .userRoles(new HashSet<>())
+                .userRoles(null)
                 .build();
     }
 }

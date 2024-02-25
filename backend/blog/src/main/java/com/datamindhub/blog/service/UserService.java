@@ -42,11 +42,12 @@ public class UserService {
         // 역할 설정
         UserRole userRole = UserRole.builder()
                 .user(user)
-                .role(roleRepository.findByName("user").orElseThrow(
+                .role(roleRepository.findByName("ROLE_USER").orElseThrow(
                         () -> new BadCredentialsException("해당 권한 정보가 없음"))
                 )
                 .build();
-        user.getUserRoles().add(userRole);
+
+        user.setUserRoles(userRole);
 
         userRepository.save(user);  // cascade를 이용해서 user_authorities 테이블에도 저장
     }
