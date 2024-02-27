@@ -57,7 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
 
             // 유저역할 정보 저장
-            user.setUserRoles(UserRole.builder()
+            user.setUserRole(UserRole.builder()
                     .user(user)
                     .role(foundRole)
                     .build()
@@ -70,6 +70,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setUserName(response.getName());
         }
 
-        return new CustomOAuth2User(response, user.getUserRoles().getRole());
+        return new CustomOAuth2User(response, user.getUserRole().getRole());
     }
 }

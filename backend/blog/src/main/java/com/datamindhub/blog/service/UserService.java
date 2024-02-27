@@ -47,7 +47,7 @@ public class UserService {
                 )
                 .build();
 
-        user.setUserRoles(userRole);
+        user.setUserRole(userRole);
 
         userRepository.save(user);  // cascade를 이용해서 user_authorities 테이블에도 저장
     }

@@ -48,5 +48,5 @@ public class User extends BaseDateTimeEntity {
     private String providerId;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private UserRole userRoles;
+    private UserRole userRole;
 }

@@ -20,7 +20,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Role role = user.getUserRoles().getRole();
+        Role role = user.getUserRole().getRole();
 
         if (role == null) throw new UsernameNotFoundException("No Roles");
 
