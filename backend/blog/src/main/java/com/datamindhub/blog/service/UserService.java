@@ -1,13 +1,12 @@
 package com.datamindhub.blog.service;
 
-import com.datamindhub.blog.domain.Role;
-import com.datamindhub.blog.domain.User;
-import com.datamindhub.blog.domain.UserRole;
+import com.datamindhub.blog.domain.user.RoleEnum;
+import com.datamindhub.blog.domain.user.User;
+import com.datamindhub.blog.domain.user.UserRole;
 import com.datamindhub.blog.dto.LoginRequestDto;
 import com.datamindhub.blog.dto.UserRequestDto;
-import com.datamindhub.blog.repository.AuthorityRepository;
-import com.datamindhub.blog.repository.RoleRepository;
-import com.datamindhub.blog.repository.UserRepository;
+import com.datamindhub.blog.repository.user.RoleRepository;
+import com.datamindhub.blog.repository.user.UserRepository;
 import com.datamindhub.blog.security.config.AuthenticationProxy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Month;
 import java.util.Optional;
 
 
@@ -42,7 +40,7 @@ public class UserService {
         // 역할 설정
         UserRole userRole = UserRole.builder()
                 .user(user)
-                .role(roleRepository.findByName("ROLE_USER").orElseThrow(
+                .role(roleRepository.findByRoleEnum(RoleEnum.ROLE_USER).orElseThrow(
                         () -> new BadCredentialsException("해당 권한 정보가 없음"))
                 )
                 .build();

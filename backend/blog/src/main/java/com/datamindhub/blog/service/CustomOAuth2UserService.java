@@ -1,9 +1,9 @@
 package com.datamindhub.blog.service;
 
-import com.datamindhub.blog.domain.*;
+import com.datamindhub.blog.domain.user.*;
 import com.datamindhub.blog.dto.*;
-import com.datamindhub.blog.repository.RoleRepository;
-import com.datamindhub.blog.repository.UserRepository;
+import com.datamindhub.blog.repository.user.RoleRepository;
+import com.datamindhub.blog.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -41,12 +41,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 response = new GoogleResponse(oAuth2User.getAttributes());
         }
 
-        Role foundRole = roleRepository.findByName(RoleEnum.ROLE_USER.toString()).orElseThrow();
         Optional<User> foundUser = userRepository.findByProviderId(response.getProviderId());
         User user;
 
         // 신규 회원일 때
         if (foundUser.isEmpty()) {
+            Role foundRole = roleRepository.findByRoleEnum(RoleEnum.ROLE_USER).orElseThrow();
             String oAuth2UserId = UUID.randomUUID().toString() + "@" + response.getProvider().charAt(0);
 
             user = User.builder()
@@ -69,7 +69,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = foundUser.get();
             user.setUserName(response.getName());
         }
+        RoleEnum role = user.getUserRole().getRole().getName();
 
-        return new CustomOAuth2User(response, user.getUserRole().getRole());
+        return new CustomOAuth2User(response, role);
     }
 }

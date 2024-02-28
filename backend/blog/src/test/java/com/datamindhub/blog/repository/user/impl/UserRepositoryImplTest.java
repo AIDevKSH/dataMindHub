@@ -1,15 +1,13 @@
-package com.datamindhub.blog.repository;
+package com.datamindhub.blog.repository.user.impl;
 
-import com.datamindhub.blog.domain.User;
+import com.datamindhub.blog.domain.user.User;
+import com.datamindhub.blog.repository.user.UserRepository;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -18,7 +16,8 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class UserRepositoryImplTest {
-    @Autowired UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     @DisplayName("이메일 단일 조회")

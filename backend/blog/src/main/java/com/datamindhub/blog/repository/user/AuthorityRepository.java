@@ -1,10 +1,9 @@
-package com.datamindhub.blog.repository;
+package com.datamindhub.blog.repository.user;
 
-import com.datamindhub.blog.domain.Authority;
+import com.datamindhub.blog.domain.user.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Repository

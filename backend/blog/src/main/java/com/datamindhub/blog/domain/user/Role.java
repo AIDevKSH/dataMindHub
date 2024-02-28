@@ -1,9 +1,8 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,10 +18,11 @@ public class Role {
     private Integer id;
 
     @Column(name = "name")
-    private String name;
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum name;
 
-    @OneToOne(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private UserRole userRole;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<UserRole> userRole;
 
     @ManyToMany//(fetch = FetchType.EAGER)
     @JoinTable(

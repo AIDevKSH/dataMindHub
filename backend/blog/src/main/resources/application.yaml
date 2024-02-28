@@ -3,6 +3,7 @@ logging:
   level:
     com.datamindhub.blog: debug
     # org.springframework.security: debug
+    # org.hibernate.SQL: DEBUG
 
     # ocalVariableTableParameterNameDiscoverer WARN 해결
     org.springframework.core.LocalVariableTableParameterNameDiscoverer: error

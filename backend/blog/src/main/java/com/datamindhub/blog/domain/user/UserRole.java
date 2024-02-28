@@ -1,5 +1,6 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.domain.user;
 
+import com.datamindhub.blog.domain.BaseDateTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class UserRole extends BaseDateTimeEntity {
     private User user;
 
     //@Id
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
 }

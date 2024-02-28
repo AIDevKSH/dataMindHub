@@ -1,9 +1,8 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,17 +18,9 @@ public class Authority {
     private Integer id;
 
     @Column(name = "name")
-    private String name;
+    @Enumerated(value = EnumType.STRING)
+    private AuthorityEnum name;
 
     @ManyToMany(mappedBy = "authorities")
     private Set<Role> roles;
-
-//    public enum AuthorityEnum {
-//        CREATE, READ, UPDATE, DELETE;
-//
-//        @Override
-//        public String toString() {
-//            return name().toLowerCase();
-//        }
-//    }
 }

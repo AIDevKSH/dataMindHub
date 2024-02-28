@@ -1,8 +1,5 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.domain.user;
 
-import com.datamindhub.blog.domain.Role;
-import com.datamindhub.blog.domain.User;
-import com.datamindhub.blog.domain.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,9 +21,9 @@ public class CustomUserDetails implements UserDetails {
         if (role == null) throw new UsernameNotFoundException("No Roles");
 
         ArrayList<SimpleGrantedAuthority> authorities = role.getAuthorities().stream()
-                .map(r -> new SimpleGrantedAuthority(r.getName().toUpperCase()))
+                .map(r -> new SimpleGrantedAuthority(r.getName().name()))
                 .collect(Collectors.toCollection(ArrayList::new));
-        authorities.add(new SimpleGrantedAuthority(role.getName()));
+        authorities.add(new SimpleGrantedAuthority(role.getName().name()));
         return authorities;
     }
 

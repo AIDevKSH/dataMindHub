@@ -1,6 +1,5 @@
-package com.datamindhub.blog.domain;
+package com.datamindhub.blog.domain.user;
 
-import com.datamindhub.blog.domain.Role;
 import com.datamindhub.blog.dto.OAuth2Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +11,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User {
     private final OAuth2Response oAuth2Response;
-    private final Role role;
+    private final RoleEnum role;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -21,7 +20,7 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(new SimpleGrantedAuthority(role.getName()));
+        return Set.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

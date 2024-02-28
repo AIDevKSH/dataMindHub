@@ -1,9 +1,12 @@
-package com.datamindhub.blog.repository;
+package com.datamindhub.blog.repository.user.impl;
 
-import com.datamindhub.blog.domain.User;
+import com.datamindhub.blog.domain.user.User;
+import com.datamindhub.blog.repository.user.UserRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,14 +26,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByProviderId(String providerId) {
-        String jpql = "SELECT u FROM User u LEFT JOIN FETCH u.userRole WHERE u.providerId = :providerId";
+        String jpql = "SELECT u FROM User u LEFT JOIN FETCH u.userRole r WHERE u.providerId = :providerId";
         return findOne(jpql, "providerId", providerId);
     }
 
     public Optional<User> findOne(String jpql, String col, String value) {
-        User user = entityManager.createQuery(jpql, User.class)
-                .setParameter(col, value)
-                .getSingleResult();
+        User user = null;
+
+        try {
+            user = entityManager.createQuery(jpql, User.class)
+                    .setParameter(col, value)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            log.debug("유저 조회 실패", e);
+        }
         return Optional.ofNullable(user);
     }
 
