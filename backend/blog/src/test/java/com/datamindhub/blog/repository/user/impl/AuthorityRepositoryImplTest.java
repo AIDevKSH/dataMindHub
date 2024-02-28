@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @Slf4j
 @SpringBootTest
 class AuthorityRepositoryImplTest {

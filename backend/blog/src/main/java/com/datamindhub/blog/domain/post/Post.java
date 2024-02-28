@@ -2,13 +2,11 @@ package com.datamindhub.blog.domain.post;
 
 import com.datamindhub.blog.domain.BaseDateTimeEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "posts")

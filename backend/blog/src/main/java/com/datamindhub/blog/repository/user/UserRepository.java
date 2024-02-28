@@ -5,7 +5,6 @@ import com.datamindhub.blog.domain.user.User;
 import java.util.List;
 import java.util.Optional;
 
-//@Repository
 public interface UserRepository {
     Optional<User> findByEmail(String email);
 
@@ -13,5 +12,5 @@ public interface UserRepository {
 
     List<User> findAll();
 
-    void save(User user);
+    Long save(User user);
 }

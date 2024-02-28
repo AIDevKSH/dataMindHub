@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
         return findOne(jpql, "providerId", providerId);
     }
 
-    public Optional<User> findOne(String jpql, String col, String value) {
+    public <T> Optional<User> findOne(String jpql, String col, T value) {
         User user = null;
 
         try {
@@ -50,7 +50,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save(User user) {
+    public Long save(User user) {
         entityManager.persist(user);
+        return user.getId();
     }
 }

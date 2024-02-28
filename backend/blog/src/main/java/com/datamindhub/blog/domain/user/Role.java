@@ -21,10 +21,10 @@ public class Role {
     @Enumerated(value = EnumType.STRING)
     private RoleEnum name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRole;
 
-    @ManyToMany//(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "role_authorities",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
