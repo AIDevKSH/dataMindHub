@@ -19,6 +19,11 @@ public class UserRepositoryImpl implements UserRepository {
     private final EntityManager entityManager;
 
     @Override
+    public Optional<User> findById(Long id) {
+        return Optional.ofNullable(entityManager.find(User.class, id));
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         String jpql = "SELECT u FROM User u LEFT JOIN FETCH u.userRole WHERE u.email = :email";
         return findOne(jpql, "email", email);

@@ -20,8 +20,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long id) {
-        String jpql = "SELECT p FROM Post p WHERE p.id = :id";
-        return findOne(jpql, "id", id);
+        return Optional.ofNullable(entityManager.find(Post.class, id));
     }
 
     @Override
@@ -57,7 +56,11 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     public Long save(Post post) {
-        entityManager.persist(post);
+        if (post.getId() != null) {
+            entityManager.persist(post);
+        } else {
+            entityManager.merge(post);
+        }
         return post.getId();
     }
 }

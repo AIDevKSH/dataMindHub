@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name = "posts")
 public class Post extends BaseDateTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "user_id")
     private Long userId;

@@ -5,6 +5,20 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@NamedEntityGraphs(value = {
+        // userRole
+        @NamedEntityGraph(name = "withUserRole", attributeNodes = {
+                @NamedAttributeNode("userRole")
+        }),
+
+        // role
+        @NamedEntityGraph(name = "withRole", attributeNodes = {
+                @NamedAttributeNode(value = "userRole", subgraph = "userRole")
+        }, subgraphs = @NamedSubgraph(name = "userRole", attributeNodes = {
+                @NamedAttributeNode("role")
+        }))
+})
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
