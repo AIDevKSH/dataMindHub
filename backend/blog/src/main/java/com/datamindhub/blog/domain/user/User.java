@@ -11,14 +11,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
                 @NamedAttributeNode("userRole")
         }),
 
-        // role
+        // userRole, role
         @NamedEntityGraph(name = "withRole", attributeNodes = {
                 @NamedAttributeNode(value = "userRole", subgraph = "userRole")
         }, subgraphs = @NamedSubgraph(name = "userRole", attributeNodes = {
                 @NamedAttributeNode("role")
         }))
 })
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

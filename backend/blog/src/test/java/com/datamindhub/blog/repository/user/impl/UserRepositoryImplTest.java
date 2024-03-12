@@ -5,6 +5,7 @@ import com.datamindhub.blog.repository.user.UserRepository;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Subgraph;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -84,7 +85,7 @@ class UserRepositoryImplTest {
 
         // when
         EntityGraph<?> withUserRole = entityManager.getEntityGraph("withUserRole");
-        Map<String, Object> hints = Map.of("javax.persistence.fetchgraph", withUserRole);
+        Map<String, Object> hints = Map.of("jakarta.persistence.fetchgraph", withUserRole);
         User foundUser = entityManager.find(User.class, user.getId(), hints);
 
         // then
@@ -106,7 +107,7 @@ class UserRepositoryImplTest {
 
         // when
         EntityGraph<?> withRole = entityManager.getEntityGraph("withRole");
-        Map<String, Object> hints = Map.of("javax.persistence.fetchgraph", withRole);
+        Map<String, Object> hints = Map.of("jakarta.persistence.fetchgraph", withRole);
         User foundUser = entityManager.find(User.class, user.getId(), hints);
 
         // then
@@ -117,6 +118,88 @@ class UserRepositoryImplTest {
         Assertions.assertThat(loaded).isTrue();
     }
 
+    @Test
+    @DisplayName("JPQL role 조회 성공")
+    public void jpqlTest() {
+        // given
+        Role role = Role.builder().name(RoleEnum.ROLE_USER).build();
+        User user = User.builder().email("테스트").build();
+        UserRole userRole = UserRole.builder().user(user).role(role).build();
+
+        entityManager.persist(userRole);
+        entityManager.flush();
+        entityManager.clear();
+
+        // when
+        EntityGraph<?> withRole = entityManager.getEntityGraph("withRole");
+        String jpql = "SELECT u FROM User u WHERE u.id = :id";
+        User foundUser = entityManager.createQuery(jpql, User.class)
+                .setParameter("id", user.getId())
+                .setHint("jakarta.persistence.fetchgraph", withRole)  // hint 설정
+                .getSingleResult();
+
+        // then
+        boolean loaded = entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(foundUser.getUserRole());
+        Assertions.assertThat(loaded).isTrue();
+
+        loaded = entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(foundUser.getUserRole().getRole());
+        Assertions.assertThat(loaded).isTrue();
+    }
+
+    @Test
+    @DisplayName("동적 엔티티 그래프 userRole 조회 성공")
+    public void createEntityGraphTest() {
+        // given
+        Role role = Role.builder().name(RoleEnum.ROLE_USER).build();
+        User user = User.builder().email("테스트").build();
+        UserRole userRole = UserRole.builder().user(user).role(role).build();
+
+        entityManager.persist(userRole);
+        entityManager.flush();
+        entityManager.clear();
+
+        // when
+        EntityGraph<User> entityGraph = entityManager.createEntityGraph(User.class);  // 동적 엔티티 그래프 생성
+        entityGraph.addAttributeNodes("userRole");
+
+        Map<String, Object> hints = Map.of("jakarta.persistence.fetchgraph", entityGraph);
+        User foundUser = entityManager.find(User.class, user.getId(), hints);
+
+        // then
+        boolean loaded = entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(foundUser.getUserRole());
+        Assertions.assertThat(loaded).isTrue();
+
+        loaded = entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(foundUser.getUserRole().getRole());
+        Assertions.assertThat(loaded).isFalse();
+    }
+
+    @Test
+    @DisplayName("동적 subgraph role 조회 성공")
+    public void createSubgraphTest() {
+        // given
+        Role role = Role.builder().name(RoleEnum.ROLE_USER).build();
+        User user = User.builder().email("테스트").build();
+        UserRole userRole = UserRole.builder().user(user).role(role).build();
+
+        entityManager.persist(userRole);
+        entityManager.flush();
+        entityManager.clear();
+
+        // when
+        EntityGraph<User> entityGraph = entityManager.createEntityGraph(User.class);  // 동적 엔티티 그래프 생성
+        Subgraph<UserRole> subgraph = entityGraph.addSubgraph("userRole");// 서브 그래프 추가
+        subgraph.addAttributeNodes("role");
+
+        Map<String, Object> hints = Map.of("jakarta.persistence.fetchgraph", entityGraph);
+        User foundUser = entityManager.find(User.class, user.getId(), hints);
+
+        // then
+        boolean loaded = entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(foundUser.getUserRole());
+        Assertions.assertThat(loaded).isTrue();
+
+        loaded = entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(foundUser.getUserRole().getRole());
+        Assertions.assertThat(loaded).isTrue();
+    }
 //    @TestConfiguration
 //    static class config {
 //        @Autowired EntityManager entityManager;
