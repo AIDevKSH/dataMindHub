@@ -27,7 +27,7 @@ public class PostController {
     public String viewArticles(Model model) {
         List<Post> posts = postService.findAll();
         model.addAttribute("posts", posts);
-        return "/post/post-list";
+        return "post/post-list";
     }
 
     @GetMapping("/new-post")

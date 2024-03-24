@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,45 +22,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-//    @ResponseBody
-//    @GetMapping("/test")
-//    public String test() {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        log.info("{}", auth.getClass());
-//        return "good";
-//    }
-
     @GetMapping("/login")
-    public String loginView(OAuth2AuthenticationToken token) {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (auth instanceof OAuth2AuthenticationToken) {
-//            return "redirect:/";
-//        }
-        //log.info("{}", auth.getClass());
-//        if (token != null) {  // 사용자가 이미 로그인한 경우
-//            return "redirect:/";
-//        }
+    public String loginView() {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
         return "/login";
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@ModelAttribute LoginRequestDto loginDto) {
-//        String token = null;
-//
-//        if (!loginDto.getEmail().isEmpty() && !loginDto.getPassword().isEmpty()) {  // 이메일, 비밀번호 둘 다 있을 때
-//            try {
-//                token = userService.requestLogin(loginDto);
-//
-//                return ResponseEntity.ok()
-//                        .header("Authorization", "Bearer " + token)
-//                        .body("");
-//            } catch (BadCredentialsException e) {
-//                log.error("로그인 오류", e);
-//            }
-//        }
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 오류");
-//    }
 
     @GetMapping("/signup")
     public String signup(Model model) {

@@ -1,5 +1,6 @@
 package com.datamindhub.blog.security.config;
 
+import com.datamindhub.blog.security.Filter.AfterLoginFilter;
 import com.datamindhub.blog.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.FormLoginC
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -27,7 +29,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return web -> web.ignoring()
-                .requestMatchers("/img/**", "/css/**", "/js/**");  // 정적 자원은 필터 무시
+                .requestMatchers("/img/**", "/css/**", "/js/**", "/assets/**");  // 정적 자원은 필터 무시
     }
 
     // 특정 Http 요청에 대한 보안 설정
@@ -43,6 +45,7 @@ public class WebSecurityConfig {
                 )
 
                 //.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(afterLoginFilter(), OAuth2LoginAuthenticationFilter.class)
 
                 // httpBasic 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -74,6 +77,11 @@ public class WebSecurityConfig {
                 )
 
                 .build();
+    }
+
+    @Bean
+    public AfterLoginFilter afterLoginFilter() {
+        return new AfterLoginFilter();
     }
 
     @Bean
