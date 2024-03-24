@@ -1,5 +1,6 @@
 package com.datamindhub.blog.controller;
 
+import com.datamindhub.blog.domain.post.Post;
 import com.datamindhub.blog.domain.user.CustomOAuth2User;
 import com.datamindhub.blog.dto.post.PostDto;
 import com.datamindhub.blog.service.UserService;
@@ -8,9 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,16 +24,24 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping("/")
-    public String viewArticles() {
+    public String viewArticles(Model model) {
+        List<Post> posts = postService.findAll();
+        model.addAttribute("posts", posts);
         return "/post/post-list";
     }
 
-    @PostMapping("/post/save")
-    public String save(@ModelAttribute PostDto postDto, Authentication auth) {
+    @GetMapping("/new-post")
+    public String newPost() {
+        return "/post/new-post";
+    }
+
+    @PostMapping("/new-post")
+    public String newPost(@ModelAttribute PostDto postDto, Authentication auth) {
         CustomOAuth2User user = (CustomOAuth2User) auth.getPrincipal();
         log.info(user.getId());
         Long userId = userService.findByProviderId(user.getId()).orElseThrow().getId();
         postDto.setUserId(userId);
+        postDto.setStatus((byte) 1);
         postService.save(postDto);
         return "redirect:/";
     }

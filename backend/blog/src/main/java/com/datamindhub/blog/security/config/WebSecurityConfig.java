@@ -60,7 +60,7 @@ public class WebSecurityConfig {
                         .userInfoEndpoint(endpointConfig -> endpointConfig
                                 .userService(customOAuth2UserService)
                         )
-                        //.loginPage("/login")  // 커스텀 로그인 페이지 설정
+                        .loginPage("/login")  // 커스텀 로그인 페이지 설정
                         .defaultSuccessUrl("/", true)
                 )
 

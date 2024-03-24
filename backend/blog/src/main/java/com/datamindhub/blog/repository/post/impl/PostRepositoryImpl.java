@@ -42,7 +42,7 @@ public class PostRepositoryImpl implements PostRepository {
         return Optional.ofNullable(post);
     }
 
-    public <T> List<Post> findAll(String jpql, String col, T value) {
+    private <T> List<Post> findAll(String jpql, String col, T value) {
         List<Post> post = null;
 
         try {
@@ -53,6 +53,12 @@ public class PostRepositoryImpl implements PostRepository {
             log.debug("게시글 조회 실패", e);
         }
         return post;
+    }
+
+    public List<Post> findAll() {
+        String jpql = "SELECT p FROM Post p";
+        return entityManager.createQuery(jpql, Post.class)
+                .getResultList();
     }
 
     public Long save(Post post) {

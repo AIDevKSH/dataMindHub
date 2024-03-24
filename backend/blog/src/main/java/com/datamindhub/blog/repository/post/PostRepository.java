@@ -12,4 +12,6 @@ public interface PostRepository {
     List<Post> findByTitle(String title);
 
     Long save(Post post);
+
+    List<Post> findAll();
 }

@@ -1,7 +1,5 @@
 package com.datamindhub.blog.dto;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Map;
 
 public class NaverResponse implements OAuth2Response {
@@ -14,7 +12,7 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public String getProvider() {
-        return "naver";
+        return "static/naver";
     }
 
     @Override

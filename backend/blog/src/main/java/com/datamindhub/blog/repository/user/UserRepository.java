@@ -12,6 +12,8 @@ public interface UserRepository {
 
     Optional<User> findByProviderId(String providerId);
 
+    Optional<User> findByProviderIdWithRole(String providerId);
+
     List<User> findAll();
 
     Long save(User user);

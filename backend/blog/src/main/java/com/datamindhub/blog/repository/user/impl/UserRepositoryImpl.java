@@ -2,11 +2,12 @@ package com.datamindhub.blog.repository.user.impl;
 
 import com.datamindhub.blog.domain.user.User;
 import com.datamindhub.blog.repository.user.UserRepository;
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,8 +32,24 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findByProviderId(String providerId) {
-        String jpql = "SELECT u FROM User u LEFT JOIN FETCH u.userRole r WHERE u.providerId = :providerId";
+        String jpql = "SELECT u FROM User u WHERE u.providerId = :providerId";
         return findOne(jpql, "providerId", providerId);
+    }
+
+    @Override
+    public Optional<User> findByProviderIdWithRole(String providerId) {
+        String jpql = "SELECT u FROM User u WHERE u.providerId = :providerId";
+        EntityGraph<?> withRole = entityManager.getEntityGraph("withRole");
+
+        try {
+            User foundUser = entityManager.createQuery(jpql, User.class)
+                    .setParameter("providerId", providerId)
+                    .setHint("jakarta.persistence.fetchgraph", withRole)
+                    .getSingleResult();
+            return Optional.of(foundUser);
+        } catch (PersistenceException e) {
+            return Optional.empty();
+        }
     }
 
     public <T> Optional<User> findOne(String jpql, String col, T value) {

@@ -28,20 +28,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        OAuth2Response response = null;
+        OAuth2Response response = switch (registrationId) {
+            case "naver" -> new NaverResponse(oAuth2User.getAttributes());
+            case "kakao" -> new KakaoResponse(oAuth2User.getAttributes()); // 카카오는 권한이 없어서 이름 대신 닉네임으로 설정
+            case "google" -> new GoogleResponse(oAuth2User.getAttributes());
+            default -> null;
+        };
 
-        switch (registrationId) {
-            case "naver":
-                response = new NaverResponse(oAuth2User.getAttributes());
-                break;
-            case "kakao" :
-                response = new KakaoResponse(oAuth2User.getAttributes()); // 카카오는 권한이 없어서 이름 대신 닉네임으로 설정
-                break;
-            case "google":
-                response = new GoogleResponse(oAuth2User.getAttributes());
-        }
-
-        Optional<User> foundUser = userRepository.findByProviderId(response.getProviderId());
+        if (response == null) throw new OAuth2AuthenticationException("로그인 실패");
+        Optional<User> foundUser = userRepository.findByProviderIdWithRole(response.getProviderId());
         User user;
 
         // 신규 회원일 때
