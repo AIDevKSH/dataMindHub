@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public String loginView() {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
+    public String login(OAuth2AuthenticationToken token) {  // 익명 사용자는 자동 주입 처리 안 되는 것 주의!
         return "/login";
     }
 

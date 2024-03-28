@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,6 +24,14 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public Optional<Post> findById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    public List<Post> findByUserId(Long userId) {
+        return postRepository.findByUserId(userId);
+    }
+
     public void update() {
 
     }
@@ -30,4 +39,6 @@ public class PostService {
     public void delete() {
 
     }
+
+
 }

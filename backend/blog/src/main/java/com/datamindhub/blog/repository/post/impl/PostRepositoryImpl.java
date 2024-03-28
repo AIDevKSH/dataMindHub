@@ -29,7 +29,13 @@ public class PostRepositoryImpl implements PostRepository {
         return findAll(jpql, "title", title);
     }
 
-    public <T> Optional<Post> findOne(String jpql, String col, T value) {
+    @Override
+    public List<Post> findByUserId(Long userId) {
+        String jpql = "SELECT p FROM Post p WHERE p.userId = :userId";
+        return findAll(jpql, "userId", userId);
+    }
+
+    private <T> Optional<Post> findOne(String jpql, String col, T value) {
         Post post = null;
 
         try {

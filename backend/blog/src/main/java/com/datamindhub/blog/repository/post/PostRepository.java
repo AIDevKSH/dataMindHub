@@ -11,6 +11,8 @@ public interface PostRepository {
     Optional<Post> findById(Long id);
     List<Post> findByTitle(String title);
 
+    List<Post> findByUserId(Long userId);
+
     Long save(Post post);
 
     List<Post> findAll();
